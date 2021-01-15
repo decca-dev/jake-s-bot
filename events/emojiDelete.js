@@ -1,4 +1,3 @@
-const client = require('../index.js');
 const Discord = require('discord.js');
 
 module.exports = async (emoji) => {
