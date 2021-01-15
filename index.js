@@ -32,6 +32,27 @@ commandFiles.forEach((f) => {
 client.on("ready", () => {
     client.user.setActivity("Your messages", { type: "WATCHING" })
     console.log(`Logged in as ${client.user.tag}`)
+    const channel = client.channels.cache.get('799758038017245184')
+
+    const got = require('got');
+
+    setInterval(() => {
+        got('https://www.reddit.com/r/memes/random/.json').then(res => {
+
+            let content = JSON.parse(res.body)
+
+            channel.send(new Discord.MessageEmbed()
+
+                .setColor('RED')
+                .setTitle(content[0].data.children[0].data.title)
+                .setImage(content[0].data.children[0].data.url)
+                .setURL(content[0].data.children[0].data.url)
+                .setFooter(`👍 ${content[0].data.children[0].data.ups} 👎 ${content[0].data.children[0].data.downs} 🗨️ ${content[0].data.children[0].data.num_comments}`)
+
+            )
+
+        })
+    }, 30000)
 })
 
 const cooldowns = new Discord.Collection()
