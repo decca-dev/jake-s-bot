@@ -10,8 +10,8 @@ module.exports = async (message) => {
     .setColor('RED')
     .setThumbnail(message.author.displayAvatarURL())
     .setTitle('Message Deleted')
+    .setDescription(`**Content:** ${message.content}`)
     .addField('Channel', `${message.channel} \`(${message.channel.id})\``)
-    .addField('Message Content', message.content)
     .addField('Author', `${message.author.tag} \`(${message.author.id})\``)
 
     logChannel.send(embed)
