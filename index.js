@@ -59,6 +59,8 @@ const cooldowns = new Discord.Collection()
 
 client.on("message", async (message) => {
 
+    require('./features/quirky')(message)
+
     if (message.author.bot) return;
 
     if (message.content.includes('<@!589044704708919316>') && message.channel.type != 'dm') {
