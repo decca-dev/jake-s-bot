@@ -34,7 +34,7 @@ client.on("ready", () => {
     console.log(`Logged in as ${client.user.tag}`)
     const channel = client.channels.cache.get('799758038017245184')
 
-    const got = require('got');
+    const got = require('got')
 
     setInterval(() => {
         got('https://www.reddit.com/r/memes/random/.json').then(res => {
@@ -52,7 +52,7 @@ client.on("ready", () => {
             )
 
         })
-    }, 30000)
+    }, 600000)
 })
 
 const cooldowns = new Discord.Collection()
