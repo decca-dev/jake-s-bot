@@ -13,8 +13,6 @@ client.config = {
         logGood: "GREEN"
     }
 };
-const randomRes = require('./random-responses.json');
-const randomR = randomRes[Math.floor(Math.random() * randomRes.length)];
 const pretty = require('pretty-ms')
 
 const commandFiles = fs.readdirSync(join(__dirname, "commands")).filter(file => file.endsWith(".js"));
@@ -30,29 +28,11 @@ commandFiles.forEach((f) => {
 })
 
 client.on("ready", () => {
+    require('./features/automeme')(client)
     client.user.setActivity("Your messages", { type: "WATCHING" })
+    console.clear();
     console.log(`Logged in as ${client.user.tag}`)
-    const channel = client.channels.cache.get('799758038017245184')
-
-    const got = require('got')
-
-    setInterval(() => {
-        got('https://www.reddit.com/r/memes/random/.json').then(res => {
-
-            let content = JSON.parse(res.body)
-
-            channel.send(new Discord.MessageEmbed()
-
-                .setColor('RED')
-                .setTitle(content[0].data.children[0].data.title)
-                .setImage(content[0].data.children[0].data.url)
-                .setURL(content[0].data.children[0].data.url)
-                .setFooter(`👍 ${content[0].data.children[0].data.ups} 👎 ${content[0].data.children[0].data.downs} 🗨️ ${content[0].data.children[0].data.num_comments}`)
-
-            )
-
-        })
-    }, 600000)
+    
 })
 
 const cooldowns = new Discord.Collection()
@@ -60,34 +40,9 @@ const cooldowns = new Discord.Collection()
 client.on("message", async (message) => {
 
     require('./features/quirky')(message)
+    require('./features/deccaHook')(message)
 
     if (message.author.bot) return;
-
-    if (message.content.includes('<@!589044704708919316>') && message.channel.type != 'dm') {
-
-        message.channel.fetchWebhooks()
-        .then(async hooks => {
-            if (hooks.size === 0) {
-
-                message.channel.createWebhook('decc00n', {
-
-                avatar: 'https://cdn.discordapp.com/avatars/589044704708919316/4cd1fd243c27ac8f16d1fd00247ef379.png?size=2048'
-
-                }
-
-                )
-                .then(webhook => webhook.send(randomR))
-
-            }else {
-
-                const hook = hooks.first()
-
-                await hook.send(randomR)
-            }
-        })
-        .catch(console.error);
-
-    }
 
     const prefixMention = new RegExp(`^<@!?${client.user.id}> `);
     const prefix = message.content.toLowerCase().match(prefixMention) ? message.content.toLowerCase().match(prefixMention)[0] : process.env.PREFIX;

@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 
 module.exports = async (oldMessage, newMessage) => {
 
-    if (oldMessage.embeds.length || newMessage.embeds.length)
+    if (oldMessage.embeds.length || newMessage.embeds.length) return;
 
     if (oldMessage.author.bot || newMessage.author.bot) return;
 

@@ -4,8 +4,6 @@ module.exports = async (message) => {
 
     if (message.embeds.length) return;
 
-    if (message.author.bot) return;
-
     const logChannel = message.guild.channels.cache.get('799667567521431642');
 
     const embed = new Discord.MessageEmbed()
